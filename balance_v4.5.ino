@@ -843,9 +843,9 @@ void initWebServer() {
   
   server.on("/tare", HTTP_GET, []() {
     server.send(200, "text/plain", "OK");
+    
     motorPosition = 0;
-    motorTarget = 0;
-    StoreEEPROM();
+    motorStepIdx0();
   });
 
   server.on("/resetWifi", HTTP_GET, []() {
@@ -1220,8 +1220,10 @@ void setup(void) {
     pesee = rechercheEquilibre();
     debug("fin équilibre : ", true);
     debug(pesee);
-    motorTarget = 0;
+    //motorTarget = 0;
+    motorTarget -= stepIdx;
     while (motorTarget != motorPosition) delay(10);
+    
     StoreEEPROM();
     
     //pesee = millis();
